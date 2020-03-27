@@ -4,7 +4,34 @@
 <head>
     <title>React App</title>
     <meta charset='UTF-8'>
+    <meta name='description' content="React chat app (RChat)">
     <base href="/" />
+    <link rel="manifest" href="manifest.json">
+    <script>
+        if('serviceWorker' in navigator){
+            window.addEventListener('load', function(){
+                navigator.serviceWorker.register('sw.js').then(function(register){
+                    Notification.requestPermission(function(result){
+                        if(result === 'granted'){
+                            navigator.serviceWorker.ready.then(function(register){
+                                register.showNotification('Notification ok!');
+                            })
+                        }
+                    })
+                    console.log('serviceWorker - ok!', register);
+                }, function(error){
+                    console.log('serviceWorker - error!', register);
+                })
+            })
+        }
+
+        window.addEventListener('appinstalled', (event) =>{
+            console.log('App installed');
+        });
+        window.addEventListener('beforeinstallpromt', (event) =>{
+            console.log('App hasn\'t installed yet');
+        });
+    </script>
 </head>
 
 <body>
